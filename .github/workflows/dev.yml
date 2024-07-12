@@ -26,8 +26,6 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
       
-    
-  
   test:
     runs-on: ubuntu-latest
 
@@ -37,10 +35,13 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v2
 
-    - name: Set up JDK 11
+    - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '8'  
+        distribution: 'adopt'
+        server-id: github
+        settings-path: ${{ github.workspace }}
 
     - name: Run Tests with Maven
       run: mvn test
