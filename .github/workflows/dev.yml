@@ -1,5 +1,4 @@
-name: CI/CD with Maven
-
+name: Build, Test and Deploy on Develop BE 
 on:
   push:
     branches:
@@ -23,7 +22,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-  
   
   test:
     runs-on: ubuntu-latest
