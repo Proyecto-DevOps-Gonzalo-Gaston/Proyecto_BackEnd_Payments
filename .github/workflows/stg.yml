@@ -22,6 +22,11 @@ jobs:
       run: mvn clean install
   
   test:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
     - name: Checkout código
       uses: actions/checkout@v2
 
