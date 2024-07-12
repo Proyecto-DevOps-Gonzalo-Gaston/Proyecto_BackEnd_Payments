@@ -2,7 +2,7 @@ name: Build, Test and Deploy on Develop BE
 on:
   push:
     branches:
-      - main
+      - Staging
 
 jobs:
   build:
