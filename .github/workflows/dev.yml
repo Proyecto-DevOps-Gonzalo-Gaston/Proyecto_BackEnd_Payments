@@ -76,8 +76,9 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Log in to AWS ECR
-        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_REGION }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-     
+         run: |
+           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCESS_KEY_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      
       - name: Tag and Push Docker image to AWS
         run: |
           docker tag payments-service-example:develop $AWS_REGION.dkr.ecr.$AWS_REGION.amazonaws.com/proyecto-devops-gg-service:develop
