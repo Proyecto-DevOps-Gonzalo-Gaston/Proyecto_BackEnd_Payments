@@ -66,3 +66,12 @@ jobs:
         run: |
           mvn clean package -DskipTests
           docker build --build-arg JAR_FILE=target/payments-service-example-0.0.1-SNAPSHOT.jar -t payments-service-example:staging .
+      
+      - name: Log in to AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCES_KEY_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+      - name: 
+        run: |
+          docker tag target/payments-service-example:0.0.1-SNAPSHOT ${{ secrets.AWS_ACCES_KEY_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/proyecto-devops-gg-service:latest
+          docker push ${{ secrets.AWS_ACCES_KEY_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/proyecto-devops-gg-service:latest
