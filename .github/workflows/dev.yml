@@ -62,11 +62,6 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Build Docker image
-        run: |
-          mvn clean package -DskipTests
-          docker build --build-arg JAR_FILE=target/payments-service-example-0.0.1-SNAPSHOT.jar -t payments-service-example:staging .
-      
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -74,6 +69,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+
+      - name: Build Docker image
+        run: |
+          mvn clean package -DskipTests
+          docker build --build-arg JAR_FILE=target/payments-service-example-0.0.1-SNAPSHOT.jar -t payments-service-example:develop .
 
       - name: Tag and Push Docker image to AWS
         run: |
