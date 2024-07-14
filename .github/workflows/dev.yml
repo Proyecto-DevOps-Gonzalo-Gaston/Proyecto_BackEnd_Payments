@@ -67,17 +67,18 @@ jobs:
           mvn clean package -DskipTests
           docker build --build-arg JAR_FILE=target/payments-service-example-0.0.1-SNAPSHOT.jar -t payments-service-example:staging .
       
-      - name: Log in to AWS ECR
-        run: |
-          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-          AWS_REGION=${{ secrets.AWS_REGION }}
-          
-          AWS_LOGIN_COMMAND=$(aws ecr get-login-password --region ${{ secrets.AWS_REGION }})
-          echo $AWS_LOGIN_COMMAND | docker login --username AWS --password-stdin ${{ secrets.AWS_REGION }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Tag and Push Docker image to AWS
+      - name: Log in to AWS ECR
+        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_REGION }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+     
+     - name: Tag and Push Docker image to AWS
         run: |
           docker tag payments-service-example:develop $AWS_REGION.dkr.ecr.$AWS_REGION.amazonaws.com/proyecto-devops-gg-service:develop
           docker push $AWS_REGION.dkr.ecr.$AWS_REGION.amazonaws.com/proyecto-devops-gg-service:develop
