@@ -77,6 +77,6 @@ jobs:
 
       - name: Tag and Push Docker image to AWS
         run: |
-          docker tag payments-service-example:develop $AWS_REGION.dkr.ecr.$AWS_REGION.amazonaws.com/proyecto-devops-gg-service:develop
-          docker push $AWS_REGION.dkr.ecr.$AWS_REGION.amazonaws.com/proyecto-devops-gg-service:develop
+          docker tag payments-service-example:develop ${{ secrets.AWS_REGION }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/proyecto-devops-gg-service:develop
+          docker push ${{ secrets.AWS_REGION }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/proyecto-devops-gg-service:develop
 
