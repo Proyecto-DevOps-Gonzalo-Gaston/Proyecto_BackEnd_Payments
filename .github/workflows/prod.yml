@@ -113,5 +113,8 @@ jobs:
           docker tag payments-service-example:prod ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/proyecto-devops-gg-payments:prod
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/proyecto-devops-gg-payments:prod
 
+      - name: Forzar nuevo Deployment del servicio
+        run: aws ecs update-service --cluster fargate-cluster-be-gg --service be-payments-svc --force-new-deployment
+
 
 
